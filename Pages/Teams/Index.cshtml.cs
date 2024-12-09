@@ -36,9 +36,20 @@ namespace CIDM_3312_Final_Project_1.Pages.Teams
         [BindProperty(SupportsGet = true)]
         public string CurrentSort {get; set;} = string.Empty;
 
+        // Search support
+        [BindProperty(SupportsGet = true)]
+        public string CurrentSearch {get; set;} = string.Empty;
+
+
         public async Task OnGetAsync()
         {
             var query = _context.Teams.Include(s => s.Players).ThenInclude(sc => sc.Team).Select(s => s);
+
+            if (!string.IsNullOrEmpty(CurrentSearch))
+            {
+                query = query.Where(s => s.team_name.ToUpper().Contains(CurrentSearch.ToUpper()));
+            }
+
 
             switch (CurrentSort)
             {
