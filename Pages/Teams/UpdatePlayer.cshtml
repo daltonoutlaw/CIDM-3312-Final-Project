@@ -1,0 +1,52 @@
+@page
+@model CIDM_3312_Final_Project_1.Pages_Teams.UpdatePlayerModel
+
+@{
+    ViewData["Title"] = "Update Team Player";
+}
+<h1>Edit</h1>
+
+<h4>Team Player</h4>
+<hr />
+<form method="post">
+    <input type="hidden" asp-for="Player.PlayerID">
+    <div class="row mb-3">
+        <div class="col-4">
+            <label asp-for="Player.TeamID" class="control-label"></label>
+            <select asp-for="Player.TeamID" asp-items="Model.TeamsDropDown" class="form-select">
+                <option value="">Choose...</option>
+            </select>
+            <span asp-validation-for="Player.TeamID" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-4">
+            <label asp-for="Player.player_name" class="form-label"></label>
+            <input asp-for="Player.player_name" class="form-control">
+            <span asp-validation-for="Player.player_name" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-4">
+            <label asp-for="Player.ERA" class="form-label"></label>
+            <input asp-for="Player.ERA" class="form-control">
+            <span asp-validation-for="Player.ERA" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-4">
+            <label asp-for="Player.AVG" class="form-label"></label>
+            <input asp-for="Player.AVG" class="form-control">
+            <span asp-validation-for="Player.AVG" class="text-danger"></span>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

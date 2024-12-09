@@ -1,0 +1,86 @@
+@page
+@model CIDM_3312_Final_Project_1.Pages.Teams.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @{
+                    //Alternate sort order
+                    var firstSort = "first_asc";
+                    if (Model.CurrentSort == "first_asc")
+                    {
+                        firstSort = "first_desc";
+                    }
+                }
+                <a asp-page="./Index" asp-route-CurrentSort="@firstSort" asp-route-PageNum="@Model.PageNum">@Html.DisplayNameFor(model => model.Team[0].team_name)</a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Team[0].Wins)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Team[0].Losses)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => Model.Team[0].Players)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Team) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.team_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Wins)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Losses)
+            </td>
+            <td>
+                @foreach(var r in item.Players)
+                {
+                    <p>@Html.DisplayFor(modelItem => r.player_name) <strong>ERA: @Html.DisplayFor(modelItem => r.ERA)</strong> <strong>AVG: @Html.DisplayFor(modelItem => r.AVG)</strong></p>
+                }
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.TeamID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.TeamID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.TeamID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<hr />
+@{
+    // If we are on page 1, prevDisabled will be set to the "disabled" class
+    // otherwise, it will be empty. So our previous button will be enabled or disabled based on this logic
+    var prevDisabled = "";
+    var nextDisabled = "";
+    if (Model.PageNum <= 1)
+    {
+        prevDisabled = "disabled";
+    }
+    if (Model.PageNum >= Model.TotalPages)
+    {
+        nextDisabled = "disabled";
+    }
+}
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item @prevDisabled"><a class="page-link" asp-page="./Index" asp-route-PageNum="@(Model.PageNum - 1)">Previous</a></li>
+        <li class="page-item @nextDisabled"><a class="page-link" asp-page="./Index" asp-route-PageNum="@(Model.PageNum + 1)">Next</a></li>
+    </ul>
+</nav>
