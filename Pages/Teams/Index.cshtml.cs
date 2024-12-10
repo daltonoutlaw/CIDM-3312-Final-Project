@@ -43,7 +43,7 @@ namespace CIDM_3312_Final_Project_1.Pages.Teams
 
         public async Task OnGetAsync()
         {
-            var query = _context.Teams.Include(s => s.Players).ThenInclude(sc => sc.Team).Select(s => s);
+            var query = _context.Teams.Include(s => s.Players).Select(s => s);
 
             if (!string.IsNullOrEmpty(CurrentSearch))
             {
@@ -63,7 +63,7 @@ namespace CIDM_3312_Final_Project_1.Pages.Teams
 
             TotalPages = (int)Math.Ceiling(_context.Teams.Count() / (double)PageSize);
 
-            Team = await _context.Teams.Include(s => s.Players).Skip((PageNum-1)*PageSize).Take(PageSize).ToListAsync();
+            Team = await query.Skip((PageNum-1)*PageSize).Take(PageSize).ToListAsync();
         }
     }
 }
